@@ -1,6 +1,6 @@
 # demistify-assignment
 
-demistify-assignment is an assignment for listing user ip and locating user on map.It is built using react and express.js.
+demistify-assignment is an assignment to build a website for listing user ip and locating user on map.It is built using react and express.js.
 ds_assignment folder consists code for frontend and ds_backend for express code.Redis is used to store user info
 
 ## Pre-requests

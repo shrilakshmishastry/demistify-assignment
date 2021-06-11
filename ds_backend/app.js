@@ -12,7 +12,7 @@ const router = express.Router();
 app.use(cors({
     credentials:true,
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
-    origin: 'http://localhost:3000'
+    // origin: 'http://04418a693297.ngrok.io'
 }));
 app.use(cookieParser());
 app.use(session({
@@ -34,7 +34,6 @@ var sess;
 router.get('/',(req,res)=>{
 
     sess = req.session;
-    console.log(sess.name+"root");
     if(sess.name){
         client.hgetall("userinfo",(err,result)=>{
             if(err) throw err;
@@ -46,7 +45,7 @@ router.get('/',(req,res)=>{
         })
 
     }else{
-    res.send("session not created");
+    res.send();
 }
 })
 
@@ -54,9 +53,16 @@ router.get('/',(req,res)=>{
 router.get("/dashboard",(req,res)=>{
     sess = req.session;
     if(sess.name){
-        return res.send(sess.name);
-    }
-   res.send("session not created dashboard");
+        client.hgetall("userinfo",(err,result)=>{
+            if(err) throw err;
+            if(result != null){
+               return res.send(result);
+            }
+        })
+
+    }else{
+    res.send();
+}
 })
 
 
@@ -64,7 +70,6 @@ router.post("/login",(req,res)=>{
     let time = new Date().toTimeString();
     sess = req.session;
     const add = lookup(req.body.ip);
-    console.log(add.ll[0]);
     sess.name = req.body.name;
     var data = req.body;
     data = {...data,
